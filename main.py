@@ -16,8 +16,9 @@ def bSearchSortedList(lst: list[int], num: int) -> int:
     
 
 numbers: list[int] = [1, 1, 5, 20, 20, 20, 20, 20, 30, 100]
-print (bSearchSortedList(numbers, 20)) # output 3 (first occurrence)
-print (bSearchSortedList(numbers, 1)) # output 0 (first occurrence)
-print (bSearchSortedList(numbers, 200)) # output -11 (isertion position after last number)
-print (bSearchSortedList(numbers, -10)) # output -1 (isertion position before first number)
-print (bSearchSortedList(numbers, 10)) # output -4 (isertion position before to keep sorted)
+if __name__ != "main":
+    print (bSearchSortedList(numbers, 20)) # output 3 (first occurrence)
+    print (bSearchSortedList(numbers, 1)) # output 0 (first occurrence)
+    print (bSearchSortedList(numbers, 200)) # output -11 (isertion position after last number)
+    print (bSearchSortedList(numbers, -10)) # output -1 (isertion position before first number)
+    print (bSearchSortedList(numbers, 10)) # output -4 (isertion position before to keep sorted)
