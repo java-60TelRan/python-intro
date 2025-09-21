@@ -7,12 +7,12 @@ def bSearchSortedList(lst: list[int], num: int) -> int:
     middle: int = -1
     while left <= right :
         middle = (right + left) // 2
-        if num <= lst[middle] : 
-            right = middle - 1
-        else :
+        if num > lst[middle] : 
             left = middle + 1
+        else :
+            right = middle - 1
         
-    return left if len(lst) > left and lst[left] == num  else -(left + 1)      
+    return left if len(lst) > left and lst[left] == num  else -(left + 1)     
     
 
 numbers: list[int] = [1, 1, 5, 20, 20, 20, 20, 20, 30, 100]
