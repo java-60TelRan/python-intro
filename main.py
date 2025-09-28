@@ -1,18 +1,19 @@
-import bisect
-# used for lists/arrays with not frequent add/remove operaions
-numbers:list[int] = []
-# insort has complexity O[N]
-bisect.insort(numbers,30)
-bisect.insort(numbers,20)
-bisect.insort(numbers,50)
-bisect.insort(numbers,50)
-bisect.insort(numbers,3)
+from sortedcontainers import SortedList
+# used for lists/arrays with  frequent add/remove operaions
+
+# method add has complexity O[LogN]
+sortedList: SortedList[int] = SortedList()
+sortedList.add(30)
+sortedList.add(20)
+sortedList.add(50)
+sortedList.add(50)
+sortedList.add(3)
 
 
 def getNumbersSortedRange(lst: list[int], min: int, max: int) -> list[int]:
 #    return part of list with closed range [min-max]
-   left: int = bisect.bisect_left(lst, min)
-   right: int = bisect.bisect_right(lst, max) 
+   left: int = sortedList.bisect_left(min)
+   right: int = sortedList.bisect_right( max) 
    return lst[left:right] 
     
-print(getNumbersSortedRange(numbers, 25, 50))   
+print(getNumbersSortedRange(sortedList, 25, 50))   
