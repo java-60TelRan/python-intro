@@ -1,12 +1,12 @@
-from sortedcontainers import SortedList
+from sortedcontainers import SortedSet
 # used for lists/arrays with  frequent add/remove operaions
 
 # method add has complexity O[LogN]
-sortedList: SortedList[int] = SortedList()
+sortedList: SortedSet[int] = SortedSet()
 sortedList.add(30)
 sortedList.add(20)
 sortedList.add(50)
-sortedList.add(50)
+sortedList.add(50) # no added in SortedSet as duplications are diallowed
 sortedList.add(3)
 
 
