@@ -1,16 +1,12 @@
 from dataclasses import dataclass, field
 from sortedcontainers import SortedSet, SortedKeyList
-
+# in real development these classes should be in the separate modules
 @dataclass(order=True, unsafe_hash=True)
 class Person:
     id: int
     age: int = field(compare = False)
     
-prs1: Person = Person(123, 25)
-prs2: Person = Person(100, 40) 
-prs3: Person = Person(50, 40)
-print(f"prs1 > prs2 is {prs1 > prs2}")
-print (f"{prs3} == Person(50, None) is {prs3 == Person(50, None)}")
+
 class Club: 
     def __init__(self):
         self.__sortedSet = SortedSet()
@@ -27,12 +23,26 @@ class Club:
     def getAllSortedAgeId(self)->list[Person]:
         return list(self.__sortedKeyList)
     
-club: Club = Club()
-club.addPerson(prs1)
-club.addPerson(prs2)
-club.addPerson(prs3)
-print("sorted by id -> ", club.getAllSortedId())
-print("sorted by age, id -> ", club.getAllSortedAgeId())
-
+    # HW #23 function 
+    def getPersonsByAge(self, minAge:int, maxAge:int) -> list[Person]:
+        leftInd: int = self.__sortedKeyList.bisect_key_left((minAge, 0))
+        rightInd: int = self.__sortedKeyList.bisect_key_left((maxAge+1, 0))
+        return list(self.__sortedKeyList[leftInd:rightInd])
+################################################################################ 
+class Dictionary: 
+    def __init__(self):
+        self.__words_sorted:list[str] = SortedKeyList(key = str.casefold)
+        
+    def addWord(self, word: str): 
+        ind: int = self.__words_sorted.bisect_left(word)
+        if ind < len(self.__words_sorted) and self.__words_sorted[ind].casefold() == word.casefold(): 
+            raise ValueError(f"word {word} already exists")
+        self.__words_sorted.add(word)
+    
+    def getWordsByPrefix(self, prefix: str) -> list[str]:
+        leftInd: int = self.__words_sorted.bisect_left(prefix)
+        rightInd: int = self.__words_sorted.bisect_left(prefix + "\uffff")
+        return list(self.__words_sorted[leftInd:rightInd])
+        
 
 
