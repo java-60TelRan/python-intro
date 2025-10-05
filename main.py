@@ -1,48 +1,46 @@
 from dataclasses import dataclass, field
-from sortedcontainers import SortedSet, SortedKeyList
-# in real development these classes should be in the separate modules
-@dataclass(order=True, unsafe_hash=True)
-class Person:
-    id: int
-    age: int = field(compare = False)
+from typing import Generic, Hashable, TypeVar
+K = TypeVar('K', bound=Hashable)
+V = TypeVar("V")
+@dataclass(order=True, frozen=True)
+class Entry(Generic[K, V]):
+    key: K
+    value: V = field(compare=False, hash=False)
+    def __str__(self):
+        return f"'{self.key}': {self.value}"
     
-
-class Club: 
+class MyDict(Generic[K, V]):
     def __init__(self):
-        self.__sortedSet = SortedSet()
-        self.__sortedKeyList = SortedKeyList(key=lambda p: (p.age, p.id))
-    def addPerson(self, person: Person):
-        # adds person
-        # raises ValueError if person already exists
-        if person in self.__sortedSet:
-            raise ValueError(f"person with id {person.id} already exists")
-        self.__sortedSet.add(person)
-        self.__sortedKeyList.add(person)
-    def getAllSortedId(self)-> list[Person]:
-        return list(self.__sortedSet)
-    def getAllSortedAgeId(self)->list[Person]:
-        return list(self.__sortedKeyList)
-    
-    # HW #23 function 
-    def getPersonsByAge(self, minAge:int, maxAge:int) -> list[Person]:
-        leftInd: int = self.__sortedKeyList.bisect_key_left((minAge, 0))
-        rightInd: int = self.__sortedKeyList.bisect_key_left((maxAge+1, 0))
-        return list(self.__sortedKeyList[leftInd:rightInd])
-################################################################################ 
-class Dictionary: 
-    def __init__(self):
-        self.__words_sorted:list[str] = SortedKeyList(key = str.casefold)
+        self.__entries: set[Entry[K, V]] = set()
+    def __getitem__(self, key: K) -> V :
+        entry: Entry[K, V] = self.__getEntryByKey(key)
+        if not entry:
+            raise KeyError(key)
+        return entry.value
+    def __setitem__(self, key: K, value: V):
+        probe: Entry[K, V] = Entry(key, value)
+        self.__entries.discard(probe)
+        self.__entries.add(probe)
+    def __getEntryByKey(self, key: K) -> Entry[K, V]:
+        # our implementation is O[N], but built-in implementation is O[1] 
+        res: Entry[K, V] = None
+        probe: Entry[K, V] = Entry(key, None)
+        if probe in self.__entries:
+            res = next((e for e in self.__entries if e == probe))
+        return res
+    def __str__(self) :
+        return  '{' + ", ".join([str(e) for e in self.__entries]) + '}'
         
-    def addWord(self, word: str): 
-        ind: int = self.__words_sorted.bisect_left(word)
-        if ind < len(self.__words_sorted) and self.__words_sorted[ind].casefold() == word.casefold(): 
-            raise ValueError(f"word {word} already exists")
-        self.__words_sorted.add(word)
-    
-    def getWordsByPrefix(self, prefix: str) -> list[str]:
-        leftInd: int = self.__words_sorted.bisect_left(prefix)
-        rightInd: int = self.__words_sorted.bisect_left(prefix + "\uffff")
-        return list(self.__words_sorted[leftInd:rightInd])
         
-
-
+if __name__ == "__main__":
+    map: dict[str, int] = dict()
+    map['a'] = 1
+    map['b'] = 1
+    print('from buil-in dict ',map['a'])
+    print('from buil-in dict ',map)
+    myDict: MyDict[str, int] = MyDict()
+    myDict['a'] = 1
+    myDict['a'] = 20
+    myDict['b'] = 40
+    print('from MyDict ',myDict)
+          
