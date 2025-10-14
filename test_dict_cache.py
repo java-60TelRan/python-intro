@@ -24,5 +24,5 @@ class TestDictCache(TestCase):
         with self.assertRaises(KeyError):
             self.dictCache['b'] 
         self.assertEqual(10, self.dictCache['a'])
-        self.assertEqual(30, self.dictCache['c'])      
-        
+        self.assertEqual(30, self.dictCache['c']) 
+   
