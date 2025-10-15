@@ -1,5 +1,5 @@
 from unittest import TestCase, main
-from main import MyDict
+from main import MyDict, MySortedDict
 class TestMyDictCommon(TestCase):
     def getDict(self): raise NotImplementedError()
     def setUp(self):
@@ -24,11 +24,11 @@ class TestMyDictCommon(TestCase):
         self.assertEqual(40, self.testDict.setdefault("d",40))
         self.assertEqual(40, self.testDict["d"])
     def test_items(self):
-        actual: list[(str, int)] = sorted(self.testDict.items())
+        actual: list[(str, int)] = self.testDict.items() if isinstance(self.testDict, MySortedDict) else sorted(self.testDict.items())
         expected: list[(str, int)] = [("a", 1), ("b", 2), ("c", 3)]  
         self.assertEqual(expected, actual)
     def test_keys(self):
-        actual: list[(str)] = sorted(self.testDict.keys())
+        actual: list[(str)] = self.testDict.keys() if isinstance(self.testDict, MySortedDict) else sorted(self.testDict.keys())
         expected: list[str] = ["a", "b", "c"]  
         self.assertEqual(expected, actual)
     def test_values(self):
