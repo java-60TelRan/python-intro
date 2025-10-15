@@ -1,6 +1,7 @@
-# HW 24 Solution based on Template Method Pattern
-## Complete class MyDict according to the TODO comments (see module main.py)
-### Write tests for class MyDict in separate test file
-## Write implementation of the specified methods of the class MySortedDict according to the TODO comments inside the methods
-### Write tests for class MySortedDict in separate test file
-## Override methods of the standard class OrderedDict as specified in the class DictCache extending OrderedDict. See TODO comments. All the specified methods should have implementation making sure that the tests from the file test_dict_cache.py passed
+# HW #25 Definition
+## Write class MyStackInt with the following methods
+- push(num: int) adds number at top of the stack
+- pop()->int removes number from the top of stack with returning the number. Raises IndexError for empty stack
+- max()->int retuns maximal number in the stack. Raises IndexError for empty stack
+## Note all the above mathods should have complexity O[1]
+## Write tests for class MyStackInt
