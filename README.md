@@ -1,7 +1,4 @@
-# HW #25 Definition
-## Write class MyStackInt with the following methods
-- push(num: int) adds number at top of the stack
-- pop()->int removes number from the top of stack with returning the number. Raises IndexError for empty stack
-- max()->int retuns maximal number in the stack. Raises IndexError for empty stack
-## Note all the above mathods should have complexity O[1]
-## Write tests for class MyStackInt
+# HW#25 Definition
+## Write implementation of the class NumbersBox (see TODO comment in main.py file)
+### Data structure for the implementation should be most effective
+## Write tests for the class
