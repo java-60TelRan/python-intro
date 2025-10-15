@@ -185,6 +185,7 @@ class MySortedDict(Generic[K,V]):
   ####################################################################################
   
 class DictCache(OrderedDict[K, V]) :
+    '''LRU cache (Least Recent Used)'''
     def __init__(self, maxsize=128):
         super().__init__() # calls constructor of OrderedDict that has all methods for keeping insertion order
         self.maxsize = maxsize
@@ -208,6 +209,3 @@ class DictCache(OrderedDict[K, V]) :
             self.popitem(last = False)
         
    
-myDict: MySortedDict = MySortedDict()
-myDict.update("a", 10)
-print(["a", 10] == myDict.peekitem(0))
