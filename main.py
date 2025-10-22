@@ -1,6 +1,6 @@
 from collections import OrderedDict
-from typing import  Hashable, Generic, TypeVar
-
+from typing import  Hashable, Generic, Iterator, TypeVar
+from sortedcontainers import SortedDict
 K = TypeVar('K', bound=Hashable)
 V = TypeVar("V")
 
@@ -29,7 +29,25 @@ class DictCache(OrderedDict[K, V]) :
         if len(self) > self.maxsize:
             self.popitem(last = False)
         
-class  Lfu_Dict_Cache(Generic[K, V]):
-    def __init__(self):
-        #TODO 
-        pass
+class  LfuDictCache(Generic[K, V]):
+    def __init__(self, max_size: int):
+        #TODO write constructor for defining encapsulated data structure
+        raise NotImplementedError()
+    def __getitem__(self, key: K) -> V:
+        #TODO method for square braces operator [] getting key and returnin value with throwing
+        #KeyError exception if key is missing
+        raise NotImplementedError()
+    def __setitem__(self, key: K, value: V):
+        # TODO method for square braces operator [] either updating existing key-value association or adding a new one
+        
+        raise NotImplementedError() 
+    def __delitem__(self, key: K):
+        # TODO method for deleting key-value association from a dictionary with throwing KeyError exception
+        # in the case of missing key like del dict[key] 
+        raise NotImplementedError()
+    def __iter__(self) -> Iterator[K]:
+        # TODO method for iterating keys in arbitrary order 
+        raise NotImplementedError()
+    def __len__(self)->int:
+        # TODO method returning number of key-value associations (pairs)
+        raise NotImplementedError()

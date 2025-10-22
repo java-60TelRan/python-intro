@@ -1,6 +1,10 @@
-# HW 24 Solution based on Template Method Pattern
-## Complete class MyDict according to the TODO comments (see module main.py)
-### Write tests for class MyDict in separate test file
-## Write implementation of the specified methods of the class MySortedDict according to the TODO comments inside the methods
-### Write tests for class MySortedDict in separate test file
-## Override methods of the standard class OrderedDict as specified in the class DictCache extending OrderedDict. See TODO comments. All the specified methods should have implementation making sure that the tests from the file test_dict_cache.py passed
+# HW#27 Definition
+## Write all methods with TODO comments of the class LfuDictCache
+### Notes:
+- LFU stands for Least Frequent Used with meaning of deleting Least Frequent Used association<br>
+- In the case of equaled frequency the least recent used key-value association should be deleted <br>
+- consider using DictCache class (see main.py file)<br>
+- consider using SortedDict class from sortedcontainers package
+### Make sure that all tests from test_lfu_dict_cach passed 
+
+
