@@ -28,19 +28,19 @@ class TestLfuDictCache(TestCase):
         The "c" will be deleted because "b" and "c" used with the same frequency but
         "c" is Least Recently Used comparing with "b"
         '''
-        self.assertRaises(KeyError, self.cache["c"])
+        self.assertRaises(KeyError, lambda: self.cache["c"])
         self.assertEqual(40, self.cache["a"])
         self.assertEqual(2, self.cache["b"])
         
     def test_iterating_deleting(self):
         self.__runIteratingTest(["a", "b", "c"])  
-        del self.cach["c"] 
+        del self.cache["c"] 
         self.__runIteratingTest(["a", "b"])
     def test_len(self):
         self.assertEqual(3, len(self.cache))    
         
     def __runIteratingTest(self, expected: list["str"]):
-        actual: list[str]  = sorted([k for k in self.cach] )
+        actual: list[str]  = sorted([k for k in self.cache] )
         self.assertEqual(expected, actual)  
         
         
