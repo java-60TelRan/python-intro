@@ -24,4 +24,4 @@ for num in numbers: print(num) - printing 10 even random numbers in the interval
 numbers = RandomNumbersStream(min=1, max=49)<br>
 numbers.setDistinct()<br>
 numbers.setLimit(10)<br>
-for num in numbers: print(num) - printing 10 even random numbers in the interval [10, 100]
+for num in numbers: print(num) - printing 10 unique random numbers in the interval [1, 49]
