@@ -13,11 +13,11 @@ numbers = RandomNumbersStream(min=10, max=100)<br>
 for num in numbers: print(num) - endless loop printing random numbers in the interval [10, 100]
 ### Endless Even Random Numbers Streaming:
 numbers = RandomNumbersStream(min=10, max=100)<br>
-numbers.setFilter(lambda n: n % 2 = 0)<br>
+numbers.setFilter(lambda n: n % 2 == 0)<br>
 for num in numbers: print(num) - endless loop printing even random numbers in the interval [10, 100]
 ### Limitted Even Random Numbers Streaming
 numbers = RandomNumbersStream(min=10, max=100)<br>
-numbers.setFilter(lambda n: n % 2 = 0)<br>
+numbers.setFilter(lambda n: n % 2 == 0)<br>
 numbers.setLimit(10)<br>
 for num in numbers: print(num) - printing 10 even random numbers in the interval [10, 100]
 ### Sport Lotto 
