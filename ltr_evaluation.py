@@ -1,0 +1,52 @@
+import operator as op
+import re
+# prototype of HW implies using integers, but HW should figure out solution for floats
+__ops:dict = {
+    "+": op.add,
+    "-": op.sub,
+    "*": op.mul,
+    "/": op.itruediv
+}
+def __binCompute(op1: int, op2:int, operation: str)->int:
+    """ evaluation of binary operator
+
+    Args:
+        op1 (int): first number
+        op2 (int): second number
+        operation (str): code of operation from ops defined above
+    """  
+    operator = __ops.get(operation)  
+    if not operator:
+        raise ValueError(f"{operation} not found")
+    return int(operator(op1, op2))
+
+def __ltrEvaluationNoParentheses(expr: str)-> int:
+    """Left to right expression evaluation in accordance with the above ops
+        Assumed that all operators (ops) have the same preference
+    Args:
+        expr (str): expression with no parentheses, for example 10 + 5 * 10 / 15 -> 10
+    """
+    operands: list[str] = re.split(r"[/*+-]+", expr)
+    operators: list[str] = re.split(r"\d+", expr)
+    res = int(operands[0])
+    for i in range(1, len(operands)):
+        res = __binCompute(res, int(operands[i]), operators[i])
+    return res 
+
+def ltrEvaluation(expr: str) -> int:
+    """evaluation of expression containing parentheses 
+     example: 3 + (2 * 10 / (40 - 20))+(3 * 4)
+     replacing expressions inside parentheses with evaluation results
+    Args:
+        expr (str): _description_
+
+    Returns:
+        int: result of evaluation
+    """ 
+    expr = re.sub(r"\s+", "", expr)
+    while mo := re.search(r"\([^()]+\)", expr):
+        inner = mo.group()[1:-1]  #removing ()  
+        value = __ltrEvaluationNoParentheses(inner)
+        expr = expr[:mo.start()] + str(value) + expr[mo.end():]
+    return __ltrEvaluationNoParentheses(expr)
+       
