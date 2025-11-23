@@ -6,8 +6,11 @@ text: str = "The internal network contains the following devices.\
         Backup is available through 172.0.5.40. Monitoring sends notifications from 85.12.30.7.\
             Whitelist for access from external network contains IP addresses from 200.13.4.1 to \
                 200.13.4.100"
-ip_regex= regex.ipV4AddressRe()  
-devices = ["WEB Server","DB server", "Backup", "Monitoring", "Whitelist From", "Whitelist To"]
-devAddresses = {devices[i]: mo.group() for i, mo in enumerate(re.finditer(ip_regex, text))}
-print("all IP address of the known devices ", devAddresses)
-print("IP address of WEB server is ", devAddresses["WEB Server"])
+ip_regex= regex.ipV4AddressRe() 
+ip_pattern = re.compile(ip_regex) 
+mo = ip_pattern.search(text)
+ip = mo.group()
+print("ip address", ip)
+print("first octet of ip address", re.search(r"\d{1,3}", ip).group())
+print( "three first octets", re.findall(r"\d{1,3}", ip)[:-1])
+
