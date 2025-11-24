@@ -1,37 +1,49 @@
 import operator as op
+import regular_expressions as regexp
 import re
 # prototype of HW implies using integers, but HW should figure out solution for floats
-__ops:dict = {
+__ops: dict = {
     "+": op.add,
     "-": op.sub,
     "*": op.mul,
-    "/": op.itruediv
+    "/": op.itruediv,
+    "**": op.pow
 }
-def __binCompute(op1: int, op2:int, operation: str)->int:
+__exprPattern = re.compile(regexp.arithmeticExpression(__ops))
+__operatorPattern = re.compile(regexp.arithmeticOperatorRe(__ops))
+__operandPattern = re.compile(r"[\d.]+")
+
+
+def __binCompute(op1: float, op2: int, operation: float) -> float:
     """ evaluation of binary operator
 
     Args:
         op1 (int): first number
         op2 (int): second number
         operation (str): code of operation from ops defined above
-    """  
-    operator = __ops.get(operation)  
+    """
+    operator = __ops.get(operation)
     if not operator:
         raise ValueError(f"{operation} not found")
-    return int(operator(op1, op2))
+    return operator(op1, op2)
 
-def __ltrEvaluationNoParentheses(expr: str)-> int:
+
+def __ltrEvaluationNoParentheses(expr: str) -> float:
     """Left to right expression evaluation in accordance with the above ops
         Assumed that all operators (ops) have the same preference
     Args:
         expr (str): expression with no parentheses, for example 10 + 5 * 10 / 15 -> 10
     """
-    operands: list[str] = re.split(r"[/*+-]+", expr)
-    operators: list[str] = re.split(r"\d+", expr)
-    res = int(operands[0])
+    operands: list[str] = re.split(__operatorPattern, expr)
+    operators: list[str] = re.split(__operandPattern, expr)
+    res = float(operands[0])
     for i in range(1, len(operands)):
-        res = __binCompute(res, int(operands[i]), operators[i])
-    return res 
+        res = __binCompute(res, float(operands[i]), operators[i])
+    return res
+
+
+
+    
 
 def ltrEvaluation(expr: str) -> int:
     """evaluation of expression containing parentheses 
@@ -42,11 +54,13 @@ def ltrEvaluation(expr: str) -> int:
 
     Returns:
         int: result of evaluation
-    """ 
+    """
+  
+    if not re.fullmatch(__exprPattern, expr):
+        raise ValueError(f"'syntax error in {expr}' ")
     expr = re.sub(r"\s+", "", expr)
     while mo := re.search(r"\([^()]+\)", expr):
-        inner = mo.group()[1:-1]  #removing ()  
+        inner = mo.group()[1:-1]  # removing ()
         value = __ltrEvaluationNoParentheses(inner)
         expr = expr[:mo.start()] + str(value) + expr[mo.end():]
     return __ltrEvaluationNoParentheses(expr)
-       
