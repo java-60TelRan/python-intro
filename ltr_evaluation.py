@@ -1,7 +1,7 @@
 import operator as op
 import regular_expressions as regexp
 import re
-# prototype of HW implies using integers, but HW should figure out solution for floats
+PAIRING_ERROR = "Parentheses Pairing Error"
 __ops: dict = {
     "+": op.add,
     "-": op.sub,
@@ -10,8 +10,8 @@ __ops: dict = {
     "**": op.pow
 }
 __exprPattern = re.compile(regexp.arithmeticExpression(__ops))
-__operatorPattern = re.compile(regexp.arithmeticOperatorRe(__ops))
-__operandPattern = re.compile(r"[\d.]+")
+__operatorDelimPattern = re.compile(rf"(?<=\d){regexp.arithmeticOperatorRe(__ops)}")
+__operandPattern = re.compile(rf"(?<!\d)-?{regexp.numberRe()}")
 
 
 def __binCompute(op1: float, op2: int, operation: float) -> float:
@@ -26,7 +26,15 @@ def __binCompute(op1: float, op2: int, operation: float) -> float:
     if not operator:
         raise ValueError(f"{operation} not found")
     return operator(op1, op2)
-
+def __checkPairing(expr: str):
+    count: int = 0
+    for ch in expr:
+        if ch == "(":
+            count += 1
+        elif ch == ")":
+            count -= 1
+        if count < 0: raise ValueError(PAIRING_ERROR) 
+    if count != 0: raise ValueError(PAIRING_ERROR)       
 
 def __ltrEvaluationNoParentheses(expr: str) -> float:
     """Left to right expression evaluation in accordance with the above ops
@@ -34,7 +42,8 @@ def __ltrEvaluationNoParentheses(expr: str) -> float:
     Args:
         expr (str): expression with no parentheses, for example 10 + 5 * 10 / 15 -> 10
     """
-    operands: list[str] = re.split(__operatorPattern, expr)
+    
+    operands: list[str] = re.split(__operatorDelimPattern, expr)
     operators: list[str] = re.split(__operandPattern, expr)
     res = float(operands[0])
     for i in range(1, len(operands)):
@@ -55,7 +64,7 @@ def ltrEvaluation(expr: str) -> int:
     Returns:
         int: result of evaluation
     """
-  
+    __checkPairing(expr)
     if not re.fullmatch(__exprPattern, expr):
         raise ValueError(f"'syntax error in {expr}' ")
     expr = re.sub(r"\s+", "", expr)

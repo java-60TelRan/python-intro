@@ -64,7 +64,7 @@ class TestRegEx(TestCase):
         self.assertTrue(re.fullmatch(regex.arithmeticOperandRe(), "(42)") )
         self.assertTrue(re.fullmatch(regex.arithmeticOperandRe(), " ( 42 )") ) 
         self.assertTrue(re.fullmatch(regex.arithmeticOperandRe(), "42.5") ) 
-        self.assertTrue(re.fullmatch(regex.arithmeticOperandRe(), "42.555") )
+        self.assertTrue(re.fullmatch(regex.arithmeticOperandRe(), "42.555e+20") )
         self.assertFalse(re.fullmatch(regex.arithmeticOperandRe(), "42 5") ) 
         self.assertFalse(re.fullmatch(regex.arithmeticOperandRe(), "") ) 
         self.assertFalse(re.fullmatch(regex.arithmeticOperandRe(), "()") )

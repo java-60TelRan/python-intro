@@ -35,15 +35,16 @@ def mobileIsraelNumberRe() -> str:
     """
     return r"(\+972-?|0)5\d-?\d-?\d{2}-?\d{2}-?\d{2}"
 
-
+def numberRe():
+    return r"\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?"
 def arithmeticOperandRe() -> str:
-    number: str = r"(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?"
+    number: str =numberRe()
     return rf"\s*\(*\s*{number}\s*\)*\s*"
 
 
 def arithmeticOperatorRe(ops) -> str:
     op_symbols = sorted(ops.keys(), key=len, reverse=True)
-    return "(?:" + "|".join(re.escape(op) for op in op_symbols) + ")"
+    return  rf"(?:{'|'.join(re.escape(op) for op in op_symbols)})"
 
 def arithmeticExpression(ops) -> str:
     operand = arithmeticOperandRe()
