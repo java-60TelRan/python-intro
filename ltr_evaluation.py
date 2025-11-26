@@ -7,7 +7,9 @@ __ops: dict = {
     "-": op.sub,
     "*": op.mul,
     "/": op.itruediv,
-    "**": op.pow
+    "**": op.pow,
+    "%": op.mod,
+    "%%": lambda whole, part: part * 100 / whole
 }
 __exprPattern = re.compile(regexp.arithmeticExpression(__ops))
 __operatorDelimPattern = re.compile(rf"(?<=\d){regexp.arithmeticOperatorRe(__ops)}")

@@ -36,7 +36,7 @@ def mobileIsraelNumberRe() -> str:
     return r"(\+972-?|0)5\d-?\d-?\d{2}-?\d{2}-?\d{2}"
 
 def numberRe():
-    return r"\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?"
+    return r"\d+(?:\.\d+)?(?:[eE][+\-]?\d+)?"
 def arithmeticOperandRe() -> str:
     number: str =numberRe()
     return rf"\s*\(*\s*{number}\s*\)*\s*"
@@ -49,5 +49,5 @@ def arithmeticOperatorRe(ops) -> str:
 def arithmeticExpression(ops) -> str:
     operand = arithmeticOperandRe()
     operator = arithmeticOperatorRe(ops)
-    return rf"{operand}({operator}{operand})*"
+    return rf"{operand}(?:{operator}{operand})*"
     

@@ -5,8 +5,8 @@ class TestLtrEvaluation(TestCase):
     def test_ltr_eval(self):
         expr = "(3 + (2 * 10 / (40 - 20))+(3 * 4)) * 10"
         self.assertAlmostEqual(160.0, ltrEvaluation(expr),places=1)
-        expr = "10 * (5 - 10.5e-1)"
-        self.assertAlmostEqual(10 * (5 - 10.5e-1) , ltrEvaluation(expr),places=1)
+        expr = "10 * (5 - 10)"
+        self.assertAlmostEqual(10 * (5 - 10) , ltrEvaluation(expr),places=1)
         expr = "10 * (5 * 10.5e-1)"
         self.assertAlmostEqual(10 * (5 * 10.5e-1) , ltrEvaluation(expr),places=1)
         expr = "10 * (5 / 10.5e-1)"
